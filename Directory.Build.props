@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup Label="Shared NuGet Metadata">
+		<Authors>Polyadic</Authors>
+		<PackageLicenseExpression>MIT OR Apache-2.0</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/polyadic/build</PackageProjectUrl>
+		<Copyright>© Polyadic. All rights reserved.</Copyright>
+	</PropertyGroup>
+	<ItemGroup Label="Code Style">
+		<PackageReference Include="Polyadic.CodeStyle" PrivateAssets="all" Version="1.0.0" />
+	</ItemGroup>
+	<PropertyGroup Label="Code Style">
+		<AnalysisLevel>5.0</AnalysisLevel>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisModeReliability>All</AnalysisModeReliability>
+		<EnablePackageValidation>true</EnablePackageValidation>
+	</PropertyGroup>
+	<PropertyGroup Label="C# Settings">
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<PropertyGroup Label="Deterministic Builds and Source Link">
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<ContinuousIntegrationBuild Condition="'$(CI)' != ''">true</ContinuousIntegrationBuild>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ArtifactsPath>$(MSBuildThisFileDirectory)artifacts</ArtifactsPath>
+	</PropertyGroup>
+</Project>
