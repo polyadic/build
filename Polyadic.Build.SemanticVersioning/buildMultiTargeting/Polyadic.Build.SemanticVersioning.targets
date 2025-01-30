@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<!-- This workaround is based on comments in: https://github.com/NuGet/Home/issues/5556#issuecomment-753526765 -->
+	<Target Name="_PolyadicExactProjectReferencesVersion" AfterTargets="_GetProjectReferenceVersions">
+		<GenerateSemanticVersionRanges ProjectReferencesWithVersions="@(_ProjectReferencesWithVersions)">
+			<Output ItemName="_ProjectReferencesWithExactVersions" TaskParameter="ProjectReferencesWithExactVersions" />
+		</GenerateSemanticVersionRanges>
+		<ItemGroup>
+			<_ProjectReferencesWithVersions Remove="@(_ProjectReferencesWithVersions)" />
+			<_ProjectReferencesWithVersions Include="@(_ProjectReferencesWithExactVersions)" />
+		</ItemGroup>
+	</Target>
+</Project>

@@ -2,6 +2,11 @@
 
 Shared Build Tools for all Polyadic/Funcky projects.
 
+## Packages
+
+* **Polyadic.Build.SemanticVersioning**: Generates semantic version ranges for project references. \
+  [![NuGet Version](https://img.shields.io/nuget/v/Polyadic.Build.SemanticVersioning)](https://www.nuget.org/packages/Polyadic.Build.SemanticVersioning)
+
 ## License
 Licensed under either of
 

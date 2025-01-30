@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>13.0</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Label="NuGet Metadata">
+        <Version>1.0.0</Version>
+        <Description>Uses semantic version ranges for ProjectReferences.</Description>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
+    </PropertyGroup>
+    <!-- Packaging of this MSBuild Task follows the excellent tutorial at:
+         <https://learn.microsoft.com/en-us/visualstudio/msbuild/tutorial-custom-task-code-generation> -->
+    <PropertyGroup Label="Packing">
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <GenerateDependencyFile>true</GenerateDependencyFile>
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+        <BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+        <NoWarn>$(NoWarn);NU5100</NoWarn>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.12.6" PrivateAssets="all" ExcludeAssets="Runtime"/>
+        <PackageReference Include="NuGet.Versioning" Version="6.12.1" PrivateAssets="all"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="readme.md" PackagePath="\"/>
+        <Content Include="buildMultiTargeting\$(PackageId).props" PackagePath="buildMultiTargeting\"/>
+        <Content Include="buildMultiTargeting\$(PackageId).targets" PackagePath="buildMultiTargeting\"/>
+    </ItemGroup>
+    <Target
+        Name="CopyProjectReferencesToPackage"
+        DependsOnTargets="ResolveReferences">
+        <ItemGroup>
+            <BuildOutputInPackage
+                Include="@(ReferenceCopyLocalPaths)"
+                TargetPath="%(ReferenceCopyLocalPaths.DestinationSubPath)"/>
+        </ItemGroup>
+    </Target>
+    <Target
+        Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput"
+        BeforeTargets="BuiltProjectOutputGroup"
+        Condition="'$(GenerateDependencyFile)' == 'true'">
+        <ItemGroup>
+            <BuiltProjectOutputGroupOutput
+                Include="$(ProjectDepsFilePath)"
+                TargetPath="$(ProjectDepsFileName)"
+                FinalOutputPath="$(ProjectDepsFilePath)"/>
+        </ItemGroup>
+    </Target>
+</Project>
